@@ -27,8 +27,12 @@ export class Input {
     });
 
     window.addEventListener('keydown', (e) => {
+      // Don't treat typing in the menu's text boxes as game input.
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
       const key = e.key.toLowerCase();
-      if (!this.keys.has(key)) this.events.push({ type: 'keydown', key });
+      // e.timeStamp is on the performance.now() clock; the rhythm game uses it
+      // to judge the exact moment of the press, independent of frame rate.
+      if (!this.keys.has(key)) this.events.push({ type: 'keydown', key, time: e.timeStamp });
       this.keys.add(key);
       if (key === ' ') e.preventDefault();
     });
