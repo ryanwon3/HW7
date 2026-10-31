@@ -8,11 +8,66 @@
 </head>
 <body>
   <canvas id="game"></canvas>
-  <div id="hud">
-    <div><b>Right click</b> to move (hold to keep steering)</div>
-    <div><b>Mouse to screen edge</b> to pan camera</div>
-    <div><b>Hold Space</b> to center camera on player &middot; <b>Y</b> to toggle camera lock &middot; <b>S</b> to stop</div>
+
+  <div id="menu" class="overlay">
+    <div class="panel">
+      <h1>Dodge + Rhythm</h1>
+      <p class="controls">
+        <b>Right hand:</b> right click to move and dodge the projectiles.<br />
+        <b>Left hand:</b> press <kbd>Q</kbd> <kbd>W</kbd> <kbd>E</kbd> <kbd>R</kbd> as the tiles reach the line.<br />
+        You earn points for every second you survive while your accuracy is at least 80%.
+      </p>
+
+      <label>Difficulty
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="normal" selected>Normal</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+
+      <button id="play-demo" class="primary">Play the demo track</button>
+
+      <div class="section">
+        <h2>Play your own song</h2>
+        <p class="hint">Pick an audio file (mp3, wav, ogg, m4a...). A tile map is generated from its beats.</p>
+        <input type="file" id="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" />
+        <div class="row">
+          <input type="text" id="link" placeholder="YouTube, Spotify or direct audio link" />
+          <button id="load-link">Load link</button>
+        </div>
+      </div>
+
+      <details>
+        <summary>Settings</summary>
+        <label>Audio offset (ms)
+          <input type="number" id="offset" value="0" step="5" />
+        </label>
+        <p class="hint">Raise it if your hits are consistently late, lower it if they're early.</p>
+      </details>
+
+      <div id="status"></div>
+      <p class="hint small">In game: <kbd>Esc</kbd> pause &middot; <kbd>Space</kbd> center camera &middot; <kbd>Y</kbd> lock camera &middot; <kbd>S</kbd> stop &middot; <kbd>H</kbd> show hitboxes</p>
+    </div>
   </div>
+
+  <div id="pause" class="overlay hidden">
+    <div class="panel">
+      <h1>Paused</h1>
+      <button id="resume" class="primary">Resume (Esc)</button>
+      <button id="pause-quit">Quit to menu</button>
+    </div>
+  </div>
+
+  <div id="gameover" class="overlay hidden">
+    <div class="panel">
+      <h1>Game over</h1>
+      <div id="results"></div>
+      <button id="restart" class="primary">Play again (Enter)</button>
+      <button id="over-menu">Menu</button>
+    </div>
+  </div>
+
   <script type="module" src="src/main.js"></script>
 </body>
 </html>
