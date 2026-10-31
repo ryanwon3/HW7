@@ -25,8 +25,10 @@ export class Game {
 
   resize() {
     const dpr = window.devicePixelRatio || 1;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    // Size from the canvas's real on-screen box so drawing and mouse
+    // coordinates always agree (100vh can differ from the visible height).
+    const w = this.canvas.clientWidth;
+    const h = this.canvas.clientHeight;
     this.canvas.width = Math.round(w * dpr);
     this.canvas.height = Math.round(h * dpr);
     this.dpr = dpr;
