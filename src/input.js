@@ -13,10 +13,7 @@ export class Input {
 
     canvas.addEventListener('mousemove', (e) => this.#setMouse(e));
     canvas.addEventListener('mouseenter', (e) => this.#setMouse(e));
-    canvas.addEventListener('mouseleave', () => {
-      this.mouse.inside = false;
-      this.rightDown = false;
-    });
+    canvas.addEventListener('mouseleave', (e) => this.#onLeave(e));
 
     canvas.addEventListener('mousedown', (e) => {
       this.#setMouse(e);
@@ -41,6 +38,20 @@ export class Input {
       this.rightDown = false;
       this.mouse.inside = false;
     });
+  }
+
+  // When the cursor leaves the page, pin it to the point where it left so that
+  // edge panning keeps going. Without this, the camera stops as soon as the
+  // cursor slips off the top (onto the browser's tab/address bar) or the bottom
+  // (onto the taskbar or past the window edge), which made up/down panning
+  // stutter while left/right (stopped by the screen edge) felt fine.
+  // Panning stops when the cursor comes back or the window loses focus.
+  #onLeave(e) {
+    this.rightDown = false;
+    const rect = this.canvas.getBoundingClientRect();
+    this.mouse.x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width - 1);
+    this.mouse.y = Math.min(Math.max(e.clientY - rect.top, 0), rect.height - 1);
+    this.mouse.inside = true;
   }
 
   #setMouse(e) {
