@@ -8,6 +8,8 @@ export class Player {
     this.speed = CONFIG.player.speed;
     this.target = null; // {x, y} world point we're walking to
     this.facing = 0; // radians
+    this.hp = CONFIG.player.maxHp;
+    this.invuln = 0; // seconds left of post-hit invulnerability
   }
 
   moveTo(wx, wy) {
